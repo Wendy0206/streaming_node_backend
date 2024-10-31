@@ -149,8 +149,6 @@ app.get("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
 });
 
 
-
-
 // POST route to add a movie to watch later
 app.post("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
   const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
@@ -166,6 +164,26 @@ app.post("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
     res.status(500).json({ error: "An error occurred while adding the movie to watch later." });
   }
 });
+
+app.delete("/movies/user/watch-later/delete", (req, res) => {
+  const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
+
+  if (!user_id || !movie_id) {
+    return res.status(400).json({ error: "User ID and Movie ID are required." });
+  }
+
+  const insertFavorite = db.prepare("DELETE FROM watch_later WHERE user_id=? AND movie_id=?;");
+
+  try {
+    insertFavorite.run(user_id, movie_id);
+    res.status(201).json({ message: "Favorite movie added successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while adding the favorite movie." });
+  }
+  
+});
+
 
 
 app.get("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
@@ -197,6 +215,27 @@ app.post("/movies/user/favorites", (req, res) => {
     res.status(500).json({ error: "An error occurred while adding the favorite movie." });
   }
 });
+
+app.delete("/movies/user/favorites/delete", (req, res) => {
+  const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
+
+  if (!user_id || !movie_id) {
+    return res.status(400).json({ error: "User ID and Movie ID are required." });
+  }
+
+  const insertFavorite = db.prepare("DELETE FROM favorites WHERE user_id=? AND movie_id=?;");
+
+  try {
+    insertFavorite.run(user_id, movie_id);
+    res.status(201).json({ message: "Favorite movie added successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while adding the favorite movie." });
+  }
+
+});
+
+
 
 
  //movies_function.uploadGenres();
