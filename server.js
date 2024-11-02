@@ -41,6 +41,22 @@ app.use(function (req, res, next) {
 
 // endpoint test
 app.get("/", (req, res) => {
+  // give them a cookie
+  //   const ourTokenValue = jwt.sign(
+  //   {
+  //     exp: Math.floor(Date.now() / 1000) + 3600,
+  //     skycolor: "blue",
+  //     userid: 2,
+  //     username: "ddddd",
+  //   },
+  //  process.env.JWTSECRET
+  // );
+  // res.cookie("ourCurrentUser", ourTokenValue, {
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: "strict",
+  //   maxAge: 1000 * 3600,
+  // });
   res.send({ result: "Get Request goes through" })
 });
 
@@ -95,7 +111,7 @@ app.post("/login", [
     },
    process.env.JWTSECRET
   );
-  res.cookie("ourCurrentUser", "ourTokenValue", {
+  res.cookie("ourCurrentUser", ourTokenValue, {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
@@ -136,10 +152,11 @@ app.post("/register", [
 app.get("/movies/all",checkUserLoggedIn, (req, res) => {
     const postStatement = db.prepare("SELECT * FROM movies LIMIT 50");
     const movies = postStatement.all();
-    console.log('Fetched movies from the database:', movies);
      res.send({ movies });
 });
 
+
+// all routes to your watch-later movie
 
 // GETT route to get watch later
 app.get("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
@@ -173,7 +190,7 @@ app.post("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
   }
 });
 
-app.delete("/movies/user/watch-later/delete", (req, res) => {
+app.delete("/movies/user/watch-later/delete",checkUserLoggedIn, (req, res) => {
   const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
 
   if (!user_id || !movie_id) {
@@ -184,16 +201,19 @@ app.delete("/movies/user/watch-later/delete", (req, res) => {
 
   try {
     insertFavorite.run(user_id, movie_id);
-    res.status(201).json({ message: "Favorite movie added successfully." });
+    res.status(201).json({ message: "watch-later movie added successfully." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "An error occurred while adding the favorite movie." });
+    res.status(500).json({ error: "An error occurred while watch-later movie." });
   }
   
 });
 
 
 
+
+
+// all routes to your favorites movie
 app.get("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
   try {
     const postStatement = db.prepare("SELECT movies.* FROM movies JOIN favorites ON favorites.movie_id = movies.id WHERE favorites.user_id = ?");
@@ -206,7 +226,7 @@ app.get("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
 });
 
 
-app.post("/movies/user/favorites", (req, res) => {
+app.post("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
   const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
 
   if (!user_id || !movie_id) {
@@ -224,7 +244,7 @@ app.post("/movies/user/favorites", (req, res) => {
   }
 });
 
-app.delete("/movies/user/favorites/delete", (req, res) => {
+app.delete("/movies/user/favorites/delete",checkUserLoggedIn, (req, res) => {
   const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
 
   if (!user_id || !movie_id) {
