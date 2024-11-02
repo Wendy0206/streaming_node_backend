@@ -36,7 +36,7 @@ app.use(function (req, res, next) {
 });
 
 
-console.log("###############################################$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&***************************")
+//console.log("###############################################$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&***************************")
 
 
 // endpoint test
@@ -86,7 +86,15 @@ app.post("/login", [
   } // if (!matchOrNot)
 
   // give them a cookie
-  
+    const ourTokenValue = jwt.sign(
+    {
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      skycolor: "blue",
+      userid: userInQuestion.id,
+      username: userInQuestion.username,
+    },
+   process.env.JWTSECRET
+  );
   res.cookie("ourCurrentUser", "ourTokenValue", {
     httpOnly: true,
     secure: true,
