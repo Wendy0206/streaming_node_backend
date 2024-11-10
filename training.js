@@ -44,19 +44,18 @@ app.use(express.json());
 app.use(function (req, res, next) {
   res.locals.errors = [];
 
-  // Try to decode incoming cookies
+  // try to decode incoming cookies
   try {
     const decoded = jwt.verify(req.cookies.ourCurrentUser, process.env.JWTSECRET);
     req.user = decoded;
   } catch (err) {
-    console.error("Error verifying JWT:", err);
     req.user = false;
   }
-
   res.locals.user = req.user;
-  console.log("Decoded user:", req.user);
-  next();
+   console.log("Hey look i get a user ",req.user);
+    next();
 });
+
 
 //console.log("###############################################$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&***************************")
 
@@ -68,28 +67,20 @@ app.get("/", (req, res) => {
 });
 
 
+
 const checkUserLoggedIn = (req, res, next) => {
-  console.log('User in request:', req.user); // Debug log
   if (req.user) {
-    next(); // User is logged in, proceed
+    next(); // User is logged in, proceed to the next middleware or route handler
   } else {
-    console.log('Unauthorized access attempt'); // Debug log
-    res.status(401).json({ error: "Unauthorized access." });
+    res.status(401).json({ error: "Unauthorized access." }); // User is not logged in
   }
 };
-
-
 
 
 function getUserByUsername(username) {
   const userStatement = db.prepare("SELECT * FROM users WHERE username=?");
   return userStatement.get(username);
 }
-
-
-
-
-
 
 
 
@@ -135,7 +126,7 @@ app.post("/login", [
     httpOnly: true,
     secure: false,
     sameSite: "lax",
-    maxAge: 3600 * 1000
+    maxAge: 3600 * 10
   });
 
 
@@ -148,6 +139,9 @@ app.post("/login", [
     
   });
 });
+
+
+
 
 
 
@@ -274,6 +268,7 @@ app.post("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
     res.status(500).json({ error: "An error occurred while adding the favorite movie." });
   }
 });
+
 
 
 app.delete("/movies/user/favorites/delete",checkUserLoggedIn, (req, res) => {
