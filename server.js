@@ -34,10 +34,8 @@ app.use(
 
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static("public"));
 app.use(cookieParser());
-
 app.use(express.json());
 
 
@@ -49,31 +47,27 @@ app.use(function (req, res, next) {
     const decoded = jwt.verify(req.cookies.ourCurrentUser, process.env.JWTSECRET);
     req.user = decoded;
   } catch (err) {
-    console.error("Error verifying JWT:", err);
+ //   console.error("Error verifying JWT:", err);
     req.user = false;
   }
 
   res.locals.user = req.user;
-  console.log("Decoded user:", req.user);
   next();
 });
 
-//console.log("###############################################$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&***************************")
 
 
 // endpoint test
 app.get("/", (req, res) => {
-  // console.log(`${req.method} ${req.url}`, req.headers);
-  res.send({ result: "Get Request goes through" })
+   res.send({ result: "Get Request goes through" })
 });
 
 
 const checkUserLoggedIn = (req, res, next) => {
-  console.log('User in request:', req.user); // Debug log
   if (req.user) {
+     
     next(); // User is logged in, proceed
-  } else {
-    console.log('Unauthorized access attempt'); // Debug log
+    } else {
     res.status(401).json({ error: "Unauthorized access." });
   }
 };
@@ -103,7 +97,6 @@ app.post("/login", [
   if (!errors.isEmpty()) {
     return res.send({ errors: errors.array().map(err => err.msg) });
   }
-
   const userInQuestion = await getUserByUsername(req.body.username);
   if (!userInQuestion) {
     errors = ["Invalid username/password"];
@@ -138,11 +131,16 @@ app.post("/login", [
     maxAge: 3600 * 1000
   });
 
-
+  const postStatement = db.prepare("SELECT * FROM movies LIMIT 50");
+    const moviesList = postStatement.all();
+    const userMoviesData={
+  movies: moviesList.slice(0,6),
+  favorites: moviesList.slice(7,13),
+  watchLater:moviesList.slice(14,19)
+}
 
     // Proceed with your login logic here (e.g., setting a cookie)
-    console.log("Login successful");
-    return res.send({ message: 'Login successful!' });
+    return res.send({ userMoviesData });
 
 
     
@@ -181,21 +179,16 @@ app.post("/register", [
   const result = ourStatement.run(req.body.username, req.body.email, req.body.password);
 }); // app.post("/register")
 
-app.get("/movies/all",checkUserLoggedIn, (req, res) => {
-    const postStatement = db.prepare("SELECT * FROM movies LIMIT 50");
-    const movies = postStatement.all();
-      res.send({ movies });
-});
 
 
 // GET route to get watch later
 app.get("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
-  const { userId, movieId } = req.body; // Extract user ID and movie ID from the request body
+  const { movie_id } = req.body; // Extract user ID and movie ID from the request body
 
   const insertWatchLater = db.prepare("SELECT movies.* FROM movies JOIN watch_later ON watch_later.movie_id = movies.id WHERE watch_later.user_id = ?");
 
   try {
-   const movies= insertWatchLater.all(1);
+   const movies= insertWatchLater.all(req.user.userid);
     return res.send({ movies});
   } catch (error) {
     console.error(error);
@@ -206,13 +199,13 @@ app.get("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
 
 // POST route to add a movie to watch later
 app.post("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
-  const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
+  const {movie_id } = req.body; // Extract user ID and movie ID from the request body
   const insertWatchLater = db.prepare("INSERT INTO watch_later (user_id, movie_id) VALUES (?, ?);");
-  if (!user_id || !movie_id) {
+  if (!movie_id) {
     return res.status(400).json({ error: "User ID and Movie ID are required." });
   }
   try {
-    insertWatchLater.run(user_id, movie_id);
+    insertWatchLater.run(req.user.userid, movie_id);
     res.status(201).json({ message: "Movie added to watch later successfully." });
   } catch (error) {
     console.error(error);
@@ -223,17 +216,17 @@ app.post("/movies/user/watch-later",checkUserLoggedIn, (req, res) => {
 
 
 app.delete("/movies/user/watch-later/delete",checkUserLoggedIn, (req, res) => {
-  const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
+  const {movie_id } = req.body; // Extract user ID and movie ID from the request body
 
-  if (!user_id || !movie_id) {
+  if (!movie_id) {
     return res.status(400).json({ error: "User ID and Movie ID are required." });
   }
 
   const insertFavorite = db.prepare("DELETE FROM watch_later WHERE user_id=? AND movie_id=?;");
 
   try {
-    insertFavorite.run(user_id, movie_id);
-    res.status(201).json({ message: "Favorite movie added successfully." });
+    insertFavorite.run(req.user.userid, movie_id);
+    res.status(201).json({ message: "Watch-later movie removed successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "An error occurred while adding the favorite movie." });
@@ -256,18 +249,17 @@ app.get("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
 
 
 
-
 app.post("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
-  const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
+  const {movie_id } = req.body; // Extract user ID and movie ID from the request body
 
-  if (!user_id || !movie_id) {
+  if (!movie_id) {
     return res.status(400).json({ error: "User ID and Movie ID are required." });
   }
 
   const insertFavorite = db.prepare("INSERT INTO favorites (user_id, movie_id) VALUES (?, ?);");
 
   try {
-    insertFavorite.run(user_id, movie_id);
+    insertFavorite.run(req.user.userid, movie_id);
     res.status(201).json({ message: "Favorite movie added successfully." });
   } catch (error) {
     console.error(error);
@@ -277,17 +269,17 @@ app.post("/movies/user/favorites",checkUserLoggedIn, (req, res) => {
 
 
 app.delete("/movies/user/favorites/delete",checkUserLoggedIn, (req, res) => {
-  const { user_id, movie_id } = req.body; // Extract user ID and movie ID from the request body
+  const {movie_id } = req.body; // Extract user ID and movie ID from the request body
 
-  if (!user_id || !movie_id) {
+  if (!movie_id) {
     return res.status(400).json({ error: "User ID and Movie ID are required." });
   }
 
   const insertFavorite = db.prepare("DELETE FROM favorites WHERE user_id=? AND movie_id=?;");
 
   try {
-    insertFavorite.run(user_id, movie_id);
-    res.status(201).json({ message: "Favorite movie added successfully." });
+    insertFavorite.run(req.user.userid, movie_id);
+    res.status(201).json({ message: "Favorite movie removed successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "An error occurred while adding the favorite movie." });
