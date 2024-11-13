@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const cors = require('cors')
 const db = require("better-sqlite3")("ourApp.db");
 db.pragma("journal_mode = WAL");
-
+const port = process.env.PORT || 3000;
 
 
 
@@ -297,4 +297,4 @@ app.delete("/movies/user/favorites/delete",checkUserLoggedIn, (req, res) => {
 //movies_function.insertGenresForMovies(moviest)
 
 
-app.listen(4000);
+app.listen(port);
