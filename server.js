@@ -82,7 +82,43 @@ function getUserByUsername(username) {
 
 
 
+const getUserMoviesList=()=>{
 
+    // SQL queries for both watch-later and favorites
+  const getWatchLater = db.prepare(`
+    SELECT movies.* 
+    FROM movies 
+    JOIN watch_later ON watch_later.movie_id = movies.id 
+    WHERE watch_later.user_id = ?
+  `);
+
+  const getFavorites = db.prepare(`
+    SELECT movies.* 
+    FROM movies 
+    JOIN favorites ON favorites.movie_id = movies.id 
+    WHERE favorites.user_id = ?
+  `);
+
+ const getMovies = db.prepare("SELECT * FROM movies LIMIT 50");
+  
+   try {
+    // Fetch both lists
+    const watchLaterMovies = getWatchLater.all(req.user.userid);
+    const favoriteMovies = getFavorites.all(req.user.userid);
+    const userMovies = getMovies.all(req.user.userid);
+
+    // Send both lists in a single object
+    return res.json({
+      watchLater: watchLaterMovies,
+      favorites: favoriteMovies,
+      movies: userMovies
+    });
+
+  } catch (error) {
+    console.error(error);
+    }
+
+};
 
 
 
@@ -105,7 +141,6 @@ app.post("/login", [
 
   bcrypt.compare(req.body.password, userInQuestion.password, (err, matchOrNot) => {
     if (err) {
-      console.error("Error comparing password:", err);
       return res.status(500).send({ error: 'Internal Server Error' });
     }
 
