@@ -3,284 +3,6 @@ const db = require("better-sqlite3")("ourApp.db");
 db.pragma("journal_mode = WAL");
 
 
-function uploadMovies() {
-    const movies=[
-    {
-        "id": 912649,
-        "title": "Venom: The Last Dance",
-        "overview": "Eddie and Venom are on the run. Hunted by both of their worlds and with the net ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//k42Owka8v91trK1qMYwCQCNwJKr.jpg",
-        "genre": [
-            878,
-            28,
-            12
-        ],
-        "score": 6.6,
-        "release_date": "2024-10-22"
-    },
-    {
-        "id": 1184918,
-        "title": "The Wild Robot",
-        "overview": "After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//wTnV3PCVW5O92JMrFvvrRcV39RU.jpg",
-        "genre": [
-            16,
-            878,
-            10751
-        ],
-        "score": 8.583,
-        "release_date": "2024-09-12"
-    },
-    {
-        "id": 1034541,
-        "title": "Terrifier 3",
-        "overview": "Five years after surviving Art the Clown's Halloween massacre, Sienna and Jonath...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//63xYQj1BwRFielxsBDXvHIJyXVm.jpg",
-        "genre": [
-            27,
-            53
-        ],
-        "score": 7.3,
-        "release_date": "2024-10-09"
-    },
-    {
-        "id": 933260,
-        "title": "The Substance",
-        "overview": "A fading celebrity decides to use a black market drug, a cell-replicating substa...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//lqoMzCcZYEFK729d6qzt349fB4o.jpg",
-        "genre": [
-            27,
-            878,
-            53
-        ],
-        "score": 7.3,
-        "release_date": "2024-09-07"
-    },
-    {
-        "id": 1029235,
-        "title": "Azrael",
-        "overview": "In a world where no one speaks, a devout female hunts down a young woman who has...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//qpdFKDvJS7oLKTcBLXOaMwUESbs.jpg",
-        "genre": [
-            28,
-            27,
-            53
-        ],
-        "score": 6.1,
-        "release_date": "2024-09-27"
-    },
-    {
-        "id": 1159311,
-        "title": "僕のヒーローアカデミア THE MOVIE ユアネクスト",
-        "overview": "In a society devastated by the effects of an all-out war between heroes and vill...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//8rdB1wkheEMMqcY8qLAKjCMPcnZ.jpg",
-        "genre": [
-            16,
-            28,
-            12,
-            878
-        ],
-        "score": 6.758,
-        "release_date": "2024-08-02"
-    },
-    {
-        "id": 978796,
-        "title": "Bagman",
-        "overview": "For centuries and across cultures, parents have warned their children of the leg...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//pkKcIP2B2ILAh4lGKyn9YkO0L1t.jpg",
-        "genre": [
-            27,
-            53
-        ],
-        "score": 6.5,
-        "release_date": "2024-09-20"
-    },
-    {
-        "id": 1047373,
-        "title": "The Silent Hour",
-        "overview": "While working a case as an interpreter, a hearing-impaired police detective must...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//j736cRzBtEPCm0nHnpRN1prqiqj.jpg",
-        "genre": [
-            80,
-            53,
-            28
-        ],
-        "score": 6.4,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 1100782,
-        "title": "Smile 2",
-        "overview": "About to embark on a new world tour, global pop sensation Skye Riley begins expe...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//aE85MnPIsSoSs3978Noo16BRsKN.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 6.889,
-        "release_date": "2024-10-16"
-    },
-    {
-        "id": 823219,
-        "title": "Flow",
-        "overview": "A solitary cat, displaced by a great flood, finds refuge on a boat with various ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//dzDMewC0Hwv01SROiWgKOi4iOc1.jpg",
-        "genre": [
-            16,
-            14,
-            12
-        ],
-        "score": 8.767,
-        "release_date": "2024-08-30"
-    },
-    {
-        "id": 1249532,
-        "title": "Rippy",
-        "overview": "Young police officer Maddy is determined to live up to her deceased father's leg...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//cZ5U4Ae74g29E02JR5oR98RQhiR.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 3.8,
-        "release_date": "2024-10-25"
-    },
-    {
-        "id": 814889,
-        "title": "Never Let Go",
-        "overview": "As an evil takes over the world beyond their front doorstep, the only protection...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//3EpZ2ksjijmdr8BhISP03PYzNFW.jpg",
-        "genre": [
-            27,
-            18
-        ],
-        "score": 6.1,
-        "release_date": "2024-09-18"
-    },
-    {
-        "id": 832964,
-        "title": "Lee",
-        "overview": "The true story of photographer Elizabeth 'Lee' Miller, a fashion model who becam...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//zdNWyuim8gpJHe1LtKaDrs43dWz.jpg",
-        "genre": [
-            18,
-            36,
-            10752
-        ],
-        "score": 6.9,
-        "release_date": "2024-09-12"
-    },
-    {
-        "id": 1064028,
-        "title": "Subservience",
-        "overview": "With his wife out sick, a struggling father brings home a lifelike AI, only to h...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//gBenxR01Uy0Ev9RTIw6dVBPoyQU.jpg",
-        "genre": [
-            878,
-            53,
-            27
-        ],
-        "score": 6.77,
-        "release_date": "2024-08-15"
-    },
-    {
-        "id": 835113,
-        "title": "Woman of the Hour",
-        "overview": "An aspiring actress crosses paths with a prolific serial killer in '70s LA when ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//nc9ZqrJFbcUdlMg9lxXXtJb24jU.jpg",
-        "genre": [
-            80,
-            18,
-            53
-        ],
-        "score": 6.6,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 1084736,
-        "title": "Le Comte de Monte-Cristo",
-        "overview": "Edmond Dantes becomes the target of a sinister plot and is arrested on his weddi...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//sAT1P3FGhtJ68anUyJScnMu8t1l.jpg",
-        "genre": [
-            12,
-            36,
-            28,
-            18,
-            10749,
-            53
-        ],
-        "score": 8.386,
-        "release_date": "2024-06-28"
-    },
-    {
-        "id": 931944,
-        "title": "Des Teufels Bad",
-        "overview": "18th century Austria. Villages surrounded by deep forests. A woman is sentenced ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//ycoXsJomPmPjtCfNweM0UWiTkPY.jpg",
-        "genre": [
-            27,
-            9648,
-            36
-        ],
-        "score": 7,
-        "release_date": "2024-03-08"
-    },
-    {
-        "id": 1226578,
-        "title": "Longlegs",
-        "overview": "FBI Agent Lee Harker is assigned to an unsolved serial killer case that takes an...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//5aj8vVGFwGVbQQs26ywhg4Zxk2L.jpg",
-        "genre": [
-            27,
-            53
-        ],
-        "score": 6.7,
-        "release_date": "2024-05-31"
-    },
-    {
-        "id": 748230,
-        "title": "Salem's Lot",
-        "overview": "Author Ben Mears returns to his childhood home of Jerusalem's Lot only to discov...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//j7ncdqBVufydVzVtxmXu8Ago4ox.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 6.277,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 558449,
-        "title": "Gladiator II",
-        "overview": "Years after witnessing the death of the revered hero Maximus at the hands of his...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
-        "genre": [
-            28,
-            12
-        ],
-        "score": 0,
-        "release_date": "2024-11-13"
-    }
-];
-
-  const insertStatement = db.prepare(`
-    INSERT INTO movies (title, poster_url, duration, overview, release_date, score) 
-    VALUES (?, ?, ?, ?, ?, ?)
-  `);
-
-  // Insert each movie into the database
-  movies.forEach((movie) => {
-    insertStatement.run(
-      movie.title,
-      movie.poster_url,
-      movie.duration,
-      movie.overview,
-      movie.release_date,
-      movie.score
-    );
-  });
-}
-
 const uploadGenres = () => {
   // Prepare the insert statement
   const genres = [
@@ -319,280 +41,288 @@ const uploadGenres = () => {
 
 
 
-function createGenreObjects() {
-  const result = [];
-      const movies=[
-    {
-        "id": 912649,
-        "title": "Venom: The Last Dance",
-        "overview": "Eddie and Venom are on the run. Hunted by both of their worlds and with the net ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//k42Owka8v91trK1qMYwCQCNwJKr.jpg",
-        "genre": [
-            878,
-            28,
-            12
-        ],
-        "score": 6.6,
-        "release_date": "2024-10-22"
-    },
-    {
-        "id": 1184918,
-        "title": "The Wild Robot",
-        "overview": "After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//wTnV3PCVW5O92JMrFvvrRcV39RU.jpg",
-        "genre": [
-            16,
-            878,
-            10751
-        ],
-        "score": 8.583,
-        "release_date": "2024-09-12"
-    },
+
+function uploadMovies() {
+const movies= [
     {
         "id": 1034541,
         "title": "Terrifier 3",
-        "overview": "Five years after surviving Art the Clown's Halloween massacre, Sienna and Jonath...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//63xYQj1BwRFielxsBDXvHIJyXVm.jpg",
+        "overview": "Five years after surviving Art the Clown's Halloween massacre, Sienna and Jonathan are still struggl...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//l1175hgL5DoXnqeZQCcU3eZIdhX.jpg",
         "genre": [
             27,
-            53
+            53,
+            9648
         ],
-        "score": 7.3,
+        "score": 6.931,
         "release_date": "2024-10-09"
+    },
+    {
+        "id": 402431,
+        "title": "Wicked",
+        "overview": "Elphaba, a young woman misunderstood because of her green skin, and Glinda, a popular aristocrat gil...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//c5Tqxeo1UpBvnAc3csUm7j3hlQl.jpg",
+        "genre": [
+            18,
+            14,
+            10749
+        ],
+        "score": 7.9,
+        "release_date": "2024-11-20"
     },
     {
         "id": 933260,
         "title": "The Substance",
-        "overview": "A fading celebrity decides to use a black market drug, a cell-replicating substa...",
+        "overview": "A fading celebrity decides to use a black market drug, a cell-replicating substance that temporarily...",
         "poster_url": "https://image.tmdb.org/t/p/w500//lqoMzCcZYEFK729d6qzt349fB4o.jpg",
         "genre": [
+            18,
             27,
-            878,
-            53
+            878
         ],
         "score": 7.3,
         "release_date": "2024-09-07"
     },
     {
-        "id": 1029235,
-        "title": "Azrael",
-        "overview": "In a world where no one speaks, a devout female hunts down a young woman who has...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//qpdFKDvJS7oLKTcBLXOaMwUESbs.jpg",
-        "genre": [
-            28,
-            27,
-            53
-        ],
-        "score": 6.1,
-        "release_date": "2024-09-27"
-    },
-    {
-        "id": 1159311,
-        "title": "僕のヒーローアカデミア THE MOVIE ユアネクスト",
-        "overview": "In a society devastated by the effects of an all-out war between heroes and vill...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//8rdB1wkheEMMqcY8qLAKjCMPcnZ.jpg",
+        "id": 1241982,
+        "title": "Moana 2",
+        "overview": "After receiving an unexpected call from her wayfinding ancestors, Moana journeys alongside Maui and ...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//m0SbwFNCa9epW1X60deLqTHiP7x.jpg",
         "genre": [
             16,
-            28,
             12,
-            878
+            10751,
+            35
         ],
-        "score": 6.758,
-        "release_date": "2024-08-02"
+        "score": 7.4,
+        "release_date": "2024-11-27"
     },
     {
-        "id": 978796,
-        "title": "Bagman",
-        "overview": "For centuries and across cultures, parents have warned their children of the leg...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//pkKcIP2B2ILAh4lGKyn9YkO0L1t.jpg",
+        "id": 1124641,
+        "title": "Classified",
+        "overview": "Operating alone in the field for more than 20 years, a CIA hitman uses the \"Help Wanted\" section of ...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//3k8jv1kSAAc0rCfFGtWDDQL4dfK.jpg",
         "genre": [
-            27,
+            28,
             53
         ],
-        "score": 6.5,
+        "score": 5.6,
+        "release_date": "2024-09-19"
+    },
+    {
+        "id": 845781,
+        "title": "Red One",
+        "overview": "After Santa Claus (codename: Red One) is kidnapped, the North Pole's Head of Security must team up w...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//cdqLnri3NEGcmfnqwk2TSIYtddg.jpg",
+        "genre": [
+            28,
+            35,
+            14
+        ],
+        "score": 6.615,
+        "release_date": "2024-10-31"
+    },
+    {
+        "id": 1014505,
+        "title": "劇場版「オーバーロード」聖王国編",
+        "overview": "After twelve years of playing his favorite MMORPG game, Momonga logs in for the last time only to fi...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//jEvytxNa5mfW7VAUmDWsZtIdATc.jpg",
+        "genre": [
+            28,
+            12,
+            16,
+            14
+        ],
+        "score": 7.7,
         "release_date": "2024-09-20"
     },
     {
-        "id": 1047373,
-        "title": "The Silent Hour",
-        "overview": "While working a case as an interpreter, a hearing-impaired police detective must...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//j736cRzBtEPCm0nHnpRN1prqiqj.jpg",
+        "id": 1084736,
+        "title": "Le Comte de Monte-Cristo",
+        "overview": "Edmond Dantes becomes the target of a sinister plot and is arrested on his wedding day for a crime h...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//zw4kV7npGtaqvUxvJE9IdqdFsNc.jpg",
         "genre": [
-            80,
-            53,
-            28
+            28,
+            12,
+            18,
+            36,
+            10749,
+            53
         ],
-        "score": 6.4,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 1100782,
-        "title": "Smile 2",
-        "overview": "About to embark on a new world tour, global pop sensation Skye Riley begins expe...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//aE85MnPIsSoSs3978Noo16BRsKN.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 6.889,
-        "release_date": "2024-10-16"
+        "score": 8.227,
+        "release_date": "2024-06-28"
     },
     {
         "id": 823219,
-        "title": "Flow",
-        "overview": "A solitary cat, displaced by a great flood, finds refuge on a boat with various ...",
+        "title": "Straume",
+        "overview": "A solitary cat, displaced by a great flood, finds refuge on a boat with various species and must nav...",
         "poster_url": "https://image.tmdb.org/t/p/w500//dzDMewC0Hwv01SROiWgKOi4iOc1.jpg",
         "genre": [
             16,
             14,
             12
         ],
-        "score": 8.767,
-        "release_date": "2024-08-30"
+        "score": 8.5,
+        "release_date": "2024-08-29"
     },
     {
-        "id": 1249532,
-        "title": "Rippy",
-        "overview": "Young police officer Maddy is determined to live up to her deceased father's leg...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//cZ5U4Ae74g29E02JR5oR98RQhiR.jpg",
+        "id": 957452,
+        "title": "The Crow",
+        "overview": "Soulmates Eric and Shelly are brutally murdered when the demons of her dark past catch up with them....",
+        "poster_url": "https://image.tmdb.org/t/p/w500//58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg",
+        "genre": [
+            28,
+            14,
+            27
+        ],
+        "score": 5.9,
+        "release_date": "2024-08-21"
+    },
+    {
+        "id": 978796,
+        "title": "Bagman",
+        "overview": "For centuries and across cultures, parents have warned their children of the legendary Bagman, who s...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//hzrvol8K2VWm2BsDTwb8YvRMzIH.jpg",
         "genre": [
             27,
-            9648
+            53
         ],
-        "score": 3.8,
-        "release_date": "2024-10-25"
+        "score": 6.259,
+        "release_date": "2024-09-20"
     },
     {
-        "id": 814889,
-        "title": "Never Let Go",
-        "overview": "As an evil takes over the world beyond their front doorstep, the only protection...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//3EpZ2ksjijmdr8BhISP03PYzNFW.jpg",
-        "genre": [
-            27,
-            18
-        ],
-        "score": 6.1,
-        "release_date": "2024-09-18"
-    },
-    {
-        "id": 832964,
-        "title": "Lee",
-        "overview": "The true story of photographer Elizabeth 'Lee' Miller, a fashion model who becam...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//zdNWyuim8gpJHe1LtKaDrs43dWz.jpg",
+        "id": 592831,
+        "title": "Megalopolis",
+        "overview": "Genius artist Cesar Catilina seeks to leap the City of New Rome into a utopian, idealistic future, w...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//8Sok3HNA3r1GHnK2lCytHyBz1A.jpg",
         "genre": [
             18,
-            36,
-            10752
+            878
         ],
-        "score": 6.9,
-        "release_date": "2024-09-12"
+        "score": 5.6,
+        "release_date": "2024-09-25"
+    },
+    {
+        "id": 1100099,
+        "title": "We Live in Time",
+        "overview": "An up-and-coming chef and a recent divorcée find their lives forever changed when a chance encounter...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//oeDNBgnlGF6rnyX1P1K8Vl2f3lW.jpg",
+        "genre": [
+            10749,
+            18,
+            35
+        ],
+        "score": 7.7,
+        "release_date": "2024-10-10"
     },
     {
         "id": 1064028,
         "title": "Subservience",
-        "overview": "With his wife out sick, a struggling father brings home a lifelike AI, only to h...",
+        "overview": "With his wife out sick, a struggling father brings home a lifelike AI, only to have his self-aware n...",
         "poster_url": "https://image.tmdb.org/t/p/w500//gBenxR01Uy0Ev9RTIw6dVBPoyQU.jpg",
         "genre": [
             878,
             53,
             27
         ],
-        "score": 6.77,
+        "score": 6.7,
         "release_date": "2024-08-15"
     },
     {
-        "id": 835113,
-        "title": "Woman of the Hour",
-        "overview": "An aspiring actress crosses paths with a prolific serial killer in '70s LA when ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//nc9ZqrJFbcUdlMg9lxXXtJb24jU.jpg",
+        "id": 814889,
+        "title": "Never Let Go",
+        "overview": "As an evil takes over the world beyond their front doorstep, the only protection for a mother and he...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//3EpZ2ksjijmdr8BhISP03PYzNFW.jpg",
+        "genre": [
+            27,
+            18
+        ],
+        "score": 6.3,
+        "release_date": "2024-09-18"
+    },
+    {
+        "id": 1114513,
+        "title": "Speak No Evil",
+        "overview": "When an American family is invited to spend the weekend at the idyllic country estate of a charming ...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//fDtkrO2OAF8LKQTdzYmu1Y7lCLB.jpg",
+        "genre": [
+            27,
+            53
+        ],
+        "score": 7.4,
+        "release_date": "2024-09-11"
+    },
+    {
+        "id": 1292359,
+        "title": "Hello, Love, Again",
+        "overview": "Five years on from when Joy said goodbye to Ethan and Hong Kong to pursue her dreams in Canada. Afte...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//7R940b9RNNKLDrAI1GmCjOd5ta.jpg",
+        "genre": [
+            10749,
+            18
+        ],
+        "score": 5.7,
+        "release_date": "2024-11-13"
+    },
+    {
+        "id": 1079485,
+        "title": "Winnie-the-Pooh: Blood and Honey 2",
+        "overview": "Five months following the murders, Christopher Robin struggles to maintain a regular life while deal...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//2sADrLwMQof6yYmrJRSa04tFZuS.jpg",
+        "genre": [
+            27,
+            53
+        ],
+        "score": 6.196,
+        "release_date": "2024-03-26"
+    },
+    {
+        "id": 1047373,
+        "title": "The Silent Hour",
+        "overview": "While working a case as an interpreter, a hearing-impaired police detective must confront a group of...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//j736cRzBtEPCm0nHnpRN1prqiqj.jpg",
         "genre": [
             80,
-            18,
-            53
+            53,
+            28
         ],
-        "score": 6.6,
+        "score": 6.468,
         "release_date": "2024-10-03"
     },
     {
-        "id": 1084736,
-        "title": "Le Comte de Monte-Cristo",
-        "overview": "Edmond Dantes becomes the target of a sinister plot and is arrested on his weddi...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//sAT1P3FGhtJ68anUyJScnMu8t1l.jpg",
+        "id": 1087822,
+        "title": "Hellboy: The Crooked Man",
+        "overview": "Hellboy and a rookie BPRD agent get stranded in 1950s rural Appalachia. There, they discover a small...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//iz2GabtToVB05gLTVSH7ZvFtsMM.jpg",
         "genre": [
-            12,
-            36,
-            28,
-            18,
-            10749,
-            53
-        ],
-        "score": 8.386,
-        "release_date": "2024-06-28"
-    },
-    {
-        "id": 931944,
-        "title": "Des Teufels Bad",
-        "overview": "18th century Austria. Villages surrounded by deep forests. A woman is sentenced ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//ycoXsJomPmPjtCfNweM0UWiTkPY.jpg",
-        "genre": [
+            14,
             27,
-            9648,
-            36
+            28
         ],
-        "score": 7,
-        "release_date": "2024-03-08"
-    },
-    {
-        "id": 1226578,
-        "title": "Longlegs",
-        "overview": "FBI Agent Lee Harker is assigned to an unsolved serial killer case that takes an...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//5aj8vVGFwGVbQQs26ywhg4Zxk2L.jpg",
-        "genre": [
-            27,
-            53
-        ],
-        "score": 6.7,
-        "release_date": "2024-05-31"
-    },
-    {
-        "id": 748230,
-        "title": "Salem's Lot",
-        "overview": "Author Ben Mears returns to his childhood home of Jerusalem's Lot only to discov...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//j7ncdqBVufydVzVtxmXu8Ago4ox.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 6.277,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 558449,
-        "title": "Gladiator II",
-        "overview": "Years after witnessing the death of the revered hero Maximus at the hands of his...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
-        "genre": [
-            28,
-            12
-        ],
-        "score": 0,
-        "release_date": "2024-11-13"
+        "score": 5.333,
+        "release_date": "2024-08-29"
     }
-];
+]
 
-  movies.forEach(movie => {
-    movie.genre.forEach(g => {
-      result.push({
-        title: movie.title,
-        genre: g
-      });
-    });
+  const insertStatement = db.prepare(`
+    INSERT INTO movies (title, poster_url, duration, overview, release_date, score) 
+    VALUES (?, ?, ?, ?, ?, ?)
+  `);
+
+  // Insert each movie into the database
+  movies.forEach((movie) => {
+    insertStatement.run(
+      movie.title,
+      movie.poster_url,
+      movie.duration,
+      movie.overview,
+      movie.release_date,
+      movie.score
+    );
   });
-
-  return result;
 }
 
-//const genreObjects = createGenreObjects(moviesL);
+
 
 
 const insertGenresForMovies = (movies) => {
@@ -618,271 +348,333 @@ const insertGenresForMovies = (movies) => {
 };
 
 
-    const moviest=[
-    {
-        "id": 912649,
-        "title": "Venom: The Last Dance",
-        "overview": "Eddie and Venom are on the run. Hunted by both of their worlds and with the net ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//k42Owka8v91trK1qMYwCQCNwJKr.jpg",
-        "genre": [
-            878,
-            28,
-            12
-        ],
-        "score": 6.6,
-        "release_date": "2024-10-22"
-    },
-    {
-        "id": 1184918,
-        "title": "The Wild Robot",
-        "overview": "After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//wTnV3PCVW5O92JMrFvvrRcV39RU.jpg",
-        "genre": [
-            16,
-            878,
-            10751
-        ],
-        "score": 8.583,
-        "release_date": "2024-09-12"
-    },
+const moviesAll= [
     {
         "id": 1034541,
         "title": "Terrifier 3",
-        "overview": "Five years after surviving Art the Clown's Halloween massacre, Sienna and Jonath...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//63xYQj1BwRFielxsBDXvHIJyXVm.jpg",
+        "overview": "Five years after surviving Art the Clown's Halloween massacre, Sienna and Jonathan are still struggl...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//l1175hgL5DoXnqeZQCcU3eZIdhX.jpg",
         "genre": [
             27,
-            53
+            53,
+            9648
         ],
-        "score": 7.3,
+        "score": 6.931,
         "release_date": "2024-10-09"
+    },
+    {
+        "id": 402431,
+        "title": "Wicked",
+        "overview": "Elphaba, a young woman misunderstood because of her green skin, and Glinda, a popular aristocrat gil...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//c5Tqxeo1UpBvnAc3csUm7j3hlQl.jpg",
+        "genre": [
+            18,
+            14,
+            10749
+        ],
+        "score": 7.9,
+        "release_date": "2024-11-20"
     },
     {
         "id": 933260,
         "title": "The Substance",
-        "overview": "A fading celebrity decides to use a black market drug, a cell-replicating substa...",
+        "overview": "A fading celebrity decides to use a black market drug, a cell-replicating substance that temporarily...",
         "poster_url": "https://image.tmdb.org/t/p/w500//lqoMzCcZYEFK729d6qzt349fB4o.jpg",
         "genre": [
+            18,
             27,
-            878,
-            53
+            878
         ],
         "score": 7.3,
         "release_date": "2024-09-07"
     },
     {
-        "id": 1029235,
-        "title": "Azrael",
-        "overview": "In a world where no one speaks, a devout female hunts down a young woman who has...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//qpdFKDvJS7oLKTcBLXOaMwUESbs.jpg",
-        "genre": [
-            28,
-            27,
-            53
-        ],
-        "score": 6.1,
-        "release_date": "2024-09-27"
-    },
-    {
-        "id": 1159311,
-        "title": "僕のヒーローアカデミア THE MOVIE ユアネクスト",
-        "overview": "In a society devastated by the effects of an all-out war between heroes and vill...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//8rdB1wkheEMMqcY8qLAKjCMPcnZ.jpg",
+        "id": 1241982,
+        "title": "Moana 2",
+        "overview": "After receiving an unexpected call from her wayfinding ancestors, Moana journeys alongside Maui and ...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//m0SbwFNCa9epW1X60deLqTHiP7x.jpg",
         "genre": [
             16,
-            28,
             12,
-            878
+            10751,
+            35
         ],
-        "score": 6.758,
-        "release_date": "2024-08-02"
+        "score": 7.4,
+        "release_date": "2024-11-27"
     },
     {
-        "id": 978796,
-        "title": "Bagman",
-        "overview": "For centuries and across cultures, parents have warned their children of the leg...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//pkKcIP2B2ILAh4lGKyn9YkO0L1t.jpg",
+        "id": 1124641,
+        "title": "Classified",
+        "overview": "Operating alone in the field for more than 20 years, a CIA hitman uses the \"Help Wanted\" section of ...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//3k8jv1kSAAc0rCfFGtWDDQL4dfK.jpg",
         "genre": [
-            27,
+            28,
             53
         ],
-        "score": 6.5,
+        "score": 5.6,
+        "release_date": "2024-09-19"
+    },
+    {
+        "id": 845781,
+        "title": "Red One",
+        "overview": "After Santa Claus (codename: Red One) is kidnapped, the North Pole's Head of Security must team up w...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//cdqLnri3NEGcmfnqwk2TSIYtddg.jpg",
+        "genre": [
+            28,
+            35,
+            14
+        ],
+        "score": 6.615,
+        "release_date": "2024-10-31"
+    },
+    {
+        "id": 1014505,
+        "title": "劇場版「オーバーロード」聖王国編",
+        "overview": "After twelve years of playing his favorite MMORPG game, Momonga logs in for the last time only to fi...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//jEvytxNa5mfW7VAUmDWsZtIdATc.jpg",
+        "genre": [
+            28,
+            12,
+            16,
+            14
+        ],
+        "score": 7.7,
         "release_date": "2024-09-20"
     },
     {
-        "id": 1047373,
-        "title": "The Silent Hour",
-        "overview": "While working a case as an interpreter, a hearing-impaired police detective must...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//j736cRzBtEPCm0nHnpRN1prqiqj.jpg",
+        "id": 1084736,
+        "title": "Le Comte de Monte-Cristo",
+        "overview": "Edmond Dantes becomes the target of a sinister plot and is arrested on his wedding day for a crime h...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//zw4kV7npGtaqvUxvJE9IdqdFsNc.jpg",
         "genre": [
-            80,
-            53,
-            28
+            28,
+            12,
+            18,
+            36,
+            10749,
+            53
         ],
-        "score": 6.4,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 1100782,
-        "title": "Smile 2",
-        "overview": "About to embark on a new world tour, global pop sensation Skye Riley begins expe...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//aE85MnPIsSoSs3978Noo16BRsKN.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 6.889,
-        "release_date": "2024-10-16"
+        "score": 8.227,
+        "release_date": "2024-06-28"
     },
     {
         "id": 823219,
-        "title": "Flow",
-        "overview": "A solitary cat, displaced by a great flood, finds refuge on a boat with various ...",
+        "title": "Straume",
+        "overview": "A solitary cat, displaced by a great flood, finds refuge on a boat with various species and must nav...",
         "poster_url": "https://image.tmdb.org/t/p/w500//dzDMewC0Hwv01SROiWgKOi4iOc1.jpg",
         "genre": [
             16,
             14,
             12
         ],
-        "score": 8.767,
-        "release_date": "2024-08-30"
+        "score": 8.5,
+        "release_date": "2024-08-29"
     },
     {
-        "id": 1249532,
-        "title": "Rippy",
-        "overview": "Young police officer Maddy is determined to live up to her deceased father's leg...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//cZ5U4Ae74g29E02JR5oR98RQhiR.jpg",
+        "id": 957452,
+        "title": "The Crow",
+        "overview": "Soulmates Eric and Shelly are brutally murdered when the demons of her dark past catch up with them....",
+        "poster_url": "https://image.tmdb.org/t/p/w500//58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg",
+        "genre": [
+            28,
+            14,
+            27
+        ],
+        "score": 5.9,
+        "release_date": "2024-08-21"
+    },
+    {
+        "id": 978796,
+        "title": "Bagman",
+        "overview": "For centuries and across cultures, parents have warned their children of the legendary Bagman, who s...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//hzrvol8K2VWm2BsDTwb8YvRMzIH.jpg",
         "genre": [
             27,
-            9648
+            53
         ],
-        "score": 3.8,
-        "release_date": "2024-10-25"
+        "score": 6.259,
+        "release_date": "2024-09-20"
     },
     {
-        "id": 814889,
-        "title": "Never Let Go",
-        "overview": "As an evil takes over the world beyond their front doorstep, the only protection...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//3EpZ2ksjijmdr8BhISP03PYzNFW.jpg",
-        "genre": [
-            27,
-            18
-        ],
-        "score": 6.1,
-        "release_date": "2024-09-18"
-    },
-    {
-        "id": 832964,
-        "title": "Lee",
-        "overview": "The true story of photographer Elizabeth 'Lee' Miller, a fashion model who becam...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//zdNWyuim8gpJHe1LtKaDrs43dWz.jpg",
+        "id": 592831,
+        "title": "Megalopolis",
+        "overview": "Genius artist Cesar Catilina seeks to leap the City of New Rome into a utopian, idealistic future, w...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//8Sok3HNA3r1GHnK2lCytHyBz1A.jpg",
         "genre": [
             18,
-            36,
-            10752
+            878
         ],
-        "score": 6.9,
-        "release_date": "2024-09-12"
+        "score": 5.6,
+        "release_date": "2024-09-25"
+    },
+    {
+        "id": 1100099,
+        "title": "We Live in Time",
+        "overview": "An up-and-coming chef and a recent divorcée find their lives forever changed when a chance encounter...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//oeDNBgnlGF6rnyX1P1K8Vl2f3lW.jpg",
+        "genre": [
+            10749,
+            18,
+            35
+        ],
+        "score": 7.7,
+        "release_date": "2024-10-10"
     },
     {
         "id": 1064028,
         "title": "Subservience",
-        "overview": "With his wife out sick, a struggling father brings home a lifelike AI, only to h...",
+        "overview": "With his wife out sick, a struggling father brings home a lifelike AI, only to have his self-aware n...",
         "poster_url": "https://image.tmdb.org/t/p/w500//gBenxR01Uy0Ev9RTIw6dVBPoyQU.jpg",
         "genre": [
             878,
             53,
             27
         ],
-        "score": 6.77,
+        "score": 6.7,
         "release_date": "2024-08-15"
     },
     {
-        "id": 835113,
-        "title": "Woman of the Hour",
-        "overview": "An aspiring actress crosses paths with a prolific serial killer in '70s LA when ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//nc9ZqrJFbcUdlMg9lxXXtJb24jU.jpg",
+        "id": 814889,
+        "title": "Never Let Go",
+        "overview": "As an evil takes over the world beyond their front doorstep, the only protection for a mother and he...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//3EpZ2ksjijmdr8BhISP03PYzNFW.jpg",
+        "genre": [
+            27,
+            18
+        ],
+        "score": 6.3,
+        "release_date": "2024-09-18"
+    },
+    {
+        "id": 1114513,
+        "title": "Speak No Evil",
+        "overview": "When an American family is invited to spend the weekend at the idyllic country estate of a charming ...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//fDtkrO2OAF8LKQTdzYmu1Y7lCLB.jpg",
+        "genre": [
+            27,
+            53
+        ],
+        "score": 7.4,
+        "release_date": "2024-09-11"
+    },
+    {
+        "id": 1292359,
+        "title": "Hello, Love, Again",
+        "overview": "Five years on from when Joy said goodbye to Ethan and Hong Kong to pursue her dreams in Canada. Afte...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//7R940b9RNNKLDrAI1GmCjOd5ta.jpg",
+        "genre": [
+            10749,
+            18
+        ],
+        "score": 5.7,
+        "release_date": "2024-11-13"
+    },
+    {
+        "id": 1079485,
+        "title": "Winnie-the-Pooh: Blood and Honey 2",
+        "overview": "Five months following the murders, Christopher Robin struggles to maintain a regular life while deal...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//2sADrLwMQof6yYmrJRSa04tFZuS.jpg",
+        "genre": [
+            27,
+            53
+        ],
+        "score": 6.196,
+        "release_date": "2024-03-26"
+    },
+    {
+        "id": 1047373,
+        "title": "The Silent Hour",
+        "overview": "While working a case as an interpreter, a hearing-impaired police detective must confront a group of...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//j736cRzBtEPCm0nHnpRN1prqiqj.jpg",
         "genre": [
             80,
-            18,
-            53
+            53,
+            28
         ],
-        "score": 6.6,
+        "score": 6.468,
         "release_date": "2024-10-03"
     },
     {
-        "id": 1084736,
-        "title": "Le Comte de Monte-Cristo",
-        "overview": "Edmond Dantes becomes the target of a sinister plot and is arrested on his weddi...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//sAT1P3FGhtJ68anUyJScnMu8t1l.jpg",
+        "id": 1087822,
+        "title": "Hellboy: The Crooked Man",
+        "overview": "Hellboy and a rookie BPRD agent get stranded in 1950s rural Appalachia. There, they discover a small...",
+        "poster_url": "https://image.tmdb.org/t/p/w500//iz2GabtToVB05gLTVSH7ZvFtsMM.jpg",
         "genre": [
-            12,
-            36,
-            28,
-            18,
-            10749,
-            53
-        ],
-        "score": 8.386,
-        "release_date": "2024-06-28"
-    },
-    {
-        "id": 931944,
-        "title": "Des Teufels Bad",
-        "overview": "18th century Austria. Villages surrounded by deep forests. A woman is sentenced ...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//ycoXsJomPmPjtCfNweM0UWiTkPY.jpg",
-        "genre": [
+            14,
             27,
-            9648,
-            36
+            28
         ],
-        "score": 7,
-        "release_date": "2024-03-08"
-    },
-    {
-        "id": 1226578,
-        "title": "Longlegs",
-        "overview": "FBI Agent Lee Harker is assigned to an unsolved serial killer case that takes an...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//5aj8vVGFwGVbQQs26ywhg4Zxk2L.jpg",
-        "genre": [
-            27,
-            53
-        ],
-        "score": 6.7,
-        "release_date": "2024-05-31"
-    },
-    {
-        "id": 748230,
-        "title": "Salem's Lot",
-        "overview": "Author Ben Mears returns to his childhood home of Jerusalem's Lot only to discov...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//j7ncdqBVufydVzVtxmXu8Ago4ox.jpg",
-        "genre": [
-            27,
-            9648
-        ],
-        "score": 6.277,
-        "release_date": "2024-10-03"
-    },
-    {
-        "id": 558449,
-        "title": "Gladiator II",
-        "overview": "Years after witnessing the death of the revered hero Maximus at the hands of his...",
-        "poster_url": "https://image.tmdb.org/t/p/w500//2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
-        "genre": [
-            28,
-            12
-        ],
-        "score": 0,
-        "release_date": "2024-11-13"
+        "score": 5.333,
+        "release_date": "2024-08-29"
     }
-];
+]
+
+
+const getUserMoviesList=(userid)=>{
+
+    // SQL queries for both watch-later and favorites
+  const getWatchLater = db.prepare(`
+    SELECT movies.* 
+    FROM movies 
+    JOIN watch_later ON watch_later.movie_id = movies.id 
+    WHERE watch_later.user_id = ?
+  `);
+
+  const getFavorites = db.prepare(`
+    SELECT movies.* 
+    FROM movies 
+    JOIN favorites ON favorites.movie_id = movies.id 
+    WHERE favorites.user_id = ?
+  `);
+
+ const getMovies = db.prepare("SELECT * FROM movies LIMIT 30");
+  
+   try {
+    // Fetch both lists
+    const watchLaterMovies = getWatchLater.all(userid);
+    const favoriteMovies = getFavorites.all(userid);
+    const userMovies = getMovies.all();
+
+    // Send both lists in a single object
+    return {
+      watchLater: watchLaterMovies,
+      favorites: favoriteMovies,
+      movies: userMovies
+    };
+
+  } catch (error) {
+    console.error(error);
+    }
+
+};
+
+
+
+const getMoviesList=()=>{
+
+    // SQL queries for both watch-later and favorites
+ 
+ const getMovies = db.prepare("SELECT * FROM movies limit 15");
+  
+   try {
+    // Fetch both lists
+   
+    const allMovies = getMovies.all();
+
+    // Send both lists in a single object
+    return {
+      movies: allMovies
+    };
+
+  } catch (error) {
+    console.error(error);
+    }
+
+};
 
 
 
 
-
-
-
-module.exports = { uploadMovies, uploadGenres, createGenreObjects, insertGenresForMovies };
+module.exports = { uploadMovies, uploadGenres, insertGenresForMovies, getUserMoviesList, getMoviesList };
 
 
